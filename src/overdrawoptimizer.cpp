@@ -267,7 +267,7 @@ static size_t generateSoftBoundaries(unsigned int* destination, const unsigned i
 
 } // namespace meshopt
 
-void meshopt_optimizeOverdraw(unsigned int* destination, const unsigned int* indices, size_t index_count, const float* vertex_positions, size_t vertex_count, size_t vertex_positions_stride, float threshold)
+void meshopt_optimizeOverdraw(unsigned int* destination, const unsigned int* indices, size_t index_count, const float* vertex_positions, size_t vertex_count, size_t vertex_positions_stride, float threshold, unsigned int* mapping)
 {
 	using namespace meshopt;
 
@@ -326,6 +326,11 @@ void meshopt_optimizeOverdraw(unsigned int* destination, const unsigned int* ind
 		assert(cluster_begin < cluster_end);
 
 		memcpy(destination + offset, indices + cluster_begin, (cluster_end - cluster_begin) * sizeof(unsigned int));
+		if (mapping) {
+			for (int i = cluster_begin; i < cluster_end; ++i) {
+				mapping[i] = offset + i - cluster_begin;
+			}
+		}
 		offset += cluster_end - cluster_begin;
 	}
 

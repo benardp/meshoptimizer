@@ -166,7 +166,7 @@ static unsigned int getNextTriangleDeadEnd(unsigned int& input_cursor, const uns
 
 } // namespace meshopt
 
-void meshopt_optimizeVertexCacheTable(unsigned int* destination, const unsigned int* indices, size_t index_count, size_t vertex_count, const meshopt::VertexScoreTable* table)
+void meshopt_optimizeVertexCacheTable(unsigned int* destination, const unsigned int* indices, size_t index_count, size_t vertex_count, const meshopt::VertexScoreTable* table, unsigned int* mapping)
 {
 	using namespace meshopt;
 
@@ -238,6 +238,9 @@ void meshopt_optimizeVertexCacheTable(unsigned int* destination, const unsigned 
 		unsigned int a = indices[current_triangle * 3 + 0];
 		unsigned int b = indices[current_triangle * 3 + 1];
 		unsigned int c = indices[current_triangle * 3 + 2];
+
+		if(mapping)
+			mapping[current_triangle] = output_triangle;
 
 		// output indices
 		destination[output_triangle * 3 + 0] = a;
@@ -348,14 +351,14 @@ void meshopt_optimizeVertexCacheTable(unsigned int* destination, const unsigned 
 	assert(output_triangle == face_count);
 }
 
-void meshopt_optimizeVertexCache(unsigned int* destination, const unsigned int* indices, size_t index_count, size_t vertex_count)
+void meshopt_optimizeVertexCache(unsigned int* destination, const unsigned int* indices, size_t index_count, size_t vertex_count, unsigned int* mapping)
 {
-	meshopt_optimizeVertexCacheTable(destination, indices, index_count, vertex_count, &meshopt::kVertexScoreTable);
+	meshopt_optimizeVertexCacheTable(destination, indices, index_count, vertex_count, &meshopt::kVertexScoreTable, mapping);
 }
 
-void meshopt_optimizeVertexCacheStrip(unsigned int* destination, const unsigned int* indices, size_t index_count, size_t vertex_count)
+void meshopt_optimizeVertexCacheStrip(unsigned int* destination, const unsigned int* indices, size_t index_count, size_t vertex_count, unsigned int* mapping)
 {
-	meshopt_optimizeVertexCacheTable(destination, indices, index_count, vertex_count, &meshopt::kVertexScoreTableStrip);
+	meshopt_optimizeVertexCacheTable(destination, indices, index_count, vertex_count, &meshopt::kVertexScoreTableStrip, mapping);
 }
 
 void meshopt_optimizeVertexCacheFifo(unsigned int* destination, const unsigned int* indices, size_t index_count, size_t vertex_count, unsigned int cache_size)

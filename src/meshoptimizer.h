@@ -142,7 +142,7 @@ MESHOPTIMIZER_API void meshopt_generateTessellationIndexBuffer(unsigned int* des
  *
  * destination must contain enough space for the resulting index buffer (index_count elements)
  */
-MESHOPTIMIZER_API void meshopt_optimizeVertexCache(unsigned int* destination, const unsigned int* indices, size_t index_count, size_t vertex_count);
+MESHOPTIMIZER_API void meshopt_optimizeVertexCache(unsigned int* destination, const unsigned int* indices, size_t index_count, size_t vertex_count, unsigned int* mapping = nullptr);
 
 /**
  * Vertex transform cache optimizer for strip-like caches
@@ -151,7 +151,7 @@ MESHOPTIMIZER_API void meshopt_optimizeVertexCache(unsigned int* destination, co
  *
  * destination must contain enough space for the resulting index buffer (index_count elements)
  */
-MESHOPTIMIZER_API void meshopt_optimizeVertexCacheStrip(unsigned int* destination, const unsigned int* indices, size_t index_count, size_t vertex_count);
+MESHOPTIMIZER_API void meshopt_optimizeVertexCacheStrip(unsigned int* destination, const unsigned int* indices, size_t index_count, size_t vertex_count, unsigned int* mapping = nullptr);
 
 /**
  * Vertex transform cache optimizer for FIFO caches
@@ -174,7 +174,7 @@ MESHOPTIMIZER_API void meshopt_optimizeVertexCacheFifo(unsigned int* destination
  * vertex_positions should have float3 position in the first 12 bytes of each vertex
  * threshold indicates how much the overdraw optimizer can degrade vertex cache efficiency (1.05 = up to 5%) to reduce overdraw more efficiently
  */
-MESHOPTIMIZER_API void meshopt_optimizeOverdraw(unsigned int* destination, const unsigned int* indices, size_t index_count, const float* vertex_positions, size_t vertex_count, size_t vertex_positions_stride, float threshold);
+MESHOPTIMIZER_API void meshopt_optimizeOverdraw(unsigned int* destination, const unsigned int* indices, size_t index_count, const float* vertex_positions, size_t vertex_count, size_t vertex_positions_stride, float threshold, unsigned int* mapping = nullptr);
 
 /**
  * Vertex fetch cache optimizer
